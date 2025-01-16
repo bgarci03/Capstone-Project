@@ -1,3 +1,7 @@
+# App files
+config.yaml
+notes.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
