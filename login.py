@@ -28,8 +28,11 @@ except Exception as e:
 if st.session_state.get("authentication_status", None):
   role = st.session_state.get("roles")[0]
 
-  if role == "student":
+  try:
     st.switch_page(f"./pages/{role}.py")
+  except:
+    st.error(f"An error occured!")
+    st.session_state["authentication_status"] = None
 
 elif st.session_state.get("authentication_status", None) is False:
   st.error("Invalid Username/Password")
