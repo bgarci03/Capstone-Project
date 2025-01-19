@@ -1,6 +1,7 @@
 # App files
 config.yaml
 notes.txt
+secrets.toml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
