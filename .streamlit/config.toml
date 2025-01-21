@@ -1,5 +1,11 @@
 [client]
 showSidebarNavigation = false
 
+
+[server]
+maxUploadSize = 50
+
 [theme]
 base = "light"
+primaryColor = "#00AEEF"
+font = "sans serif"

@@ -16,7 +16,6 @@ def get_current_page_name():
 
 # Student Functions
 def student_sidebar():
-  st.write(f"**{st.session_state.get("id_number")}**")
   st.page_link("./pages/student.py", label="Home")
   st.page_link("./pages/student_add_event.py", label="Remedy LOC Hours")
   st.page_link("./pages/student_upcoming_events.py", label="Upcoming LOC Labs")

@@ -14,9 +14,8 @@ def add_id_number_to_session_state():
   with open("./.streamlit/config.yaml", "r") as file:
     config = yaml.load(file, Loader=SafeLoader)
   
-  if "id_number" not in st.session_state:
-    username = st.session_state.get("username")
-    st.session_state["id_number"] = config["credentials"]["usernames"][username].get("id_number")
+  username = st.session_state.get("username")
+  st.session_state["id_number"] = config["credentials"]["usernames"][username].get("id_number")
 
 with open("./.streamlit/config.yaml") as file:
   config = yaml.load(file, Loader=SafeLoader)
