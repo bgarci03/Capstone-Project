@@ -10,7 +10,7 @@ st.set_page_config(
   page_title="Login"
 )
 
-def add_id_number_to_session_state():
+def add_student_info():
   with open("./.streamlit/config.yaml", "r") as file:
     config = yaml.load(file, Loader=SafeLoader)
   
@@ -20,6 +20,12 @@ def add_id_number_to_session_state():
 with open("./.streamlit/config.yaml") as file:
   config = yaml.load(file, Loader=SafeLoader)
 
+try:
+  for key in st.session_state.keys():
+    del st.session_state.key
+except:
+  pass
+
 st.session_state.authenticator = stauth.Authenticate(
   config['credentials'],
   config['cookie']['name'],
@@ -27,7 +33,7 @@ st.session_state.authenticator = stauth.Authenticate(
   config['cookie']['expiry_days']
 )
 
-st.logo("./media/SISD_Seal.jpeg")
+st.logo("./media/SISD_Seal.png")
 
 st.title("SISD Loss of Credit")
 
@@ -41,7 +47,7 @@ if st.session_state.get("authentication_status", None):
 
   try:
     if role == "student":
-      add_id_number_to_session_state()
+      add_student_info()
 
     st.switch_page(f"./pages/{role}.py")
   except Exception as e:
