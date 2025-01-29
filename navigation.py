@@ -22,8 +22,8 @@ def student_sidebar():
 
 # Admin Functions
 def admin_sidebar():
-  st.page_link("./pages/admin.py", label="Panel")
-  st.page_link("./pages/admin_events.py", label="Events")
+  st.page_link("./pages/admin.py", label="Admin Panel")
+  st.page_link("./pages/admin_events.py", label="Manage Events")
 
 # Sidebar Generation
 def generate_sidebar():
@@ -33,7 +33,7 @@ def generate_sidebar():
     if auth_status:
       role = st.session_state.get("roles")[0]
 
-      st.logo("./media/SISD_Seal.jpeg")
+      st.logo("./media/SISD_Seal.png")
 
       st.title("SISD Loss of Credit")
       st.write(f"*{role.title()} View*")
