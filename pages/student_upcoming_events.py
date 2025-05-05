@@ -23,7 +23,8 @@ def show_event(event_info):
 
 generate_sidebar()
 
-events = get_upcoming_loc_labs_db().loc[st.session_state.school]
+events_sheet = get_upcoming_loc_labs_db().get_all_records()
+events_filtered_dict = {row["School"]: (row["Time Start"], row["Time End"], row["Location"], row["Teacher"]) for row in events_sheet if row["School"] == st.session_state.school}
 
 calendar_options = {
   "headerToolbar": {
@@ -35,9 +36,9 @@ calendar_options = {
 }
 
 calendar_events = []
-for event in events.itertuples():
-  iso_start_time = datetime.strptime(f"{event.Date} {event._2}", "%m/%d/%Y %I:%M %p").isoformat()
-  iso_end_time = datetime.strptime(f"{event.Date} {event._3}", "%m/%d/%Y %I:%M %p").isoformat()
+for event in events_sheet:
+  iso_start_time = datetime.strptime(f"{event["Date"]} {event["Time Start"]}", "%m/%d/%Y %I:%M %p").isoformat()
+  iso_end_time = datetime.strptime(f"{event["Date"]} {event["Time End"]}", "%m/%d/%Y %I:%M %p").isoformat()
 
   calendar_events.append({
     "title": f"LOC Lab @ {st.session_state.school}",

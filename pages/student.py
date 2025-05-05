@@ -15,22 +15,23 @@ try:
 except:
   st.switch_page("login.py")
 
-student_data = get_student_loc_data_db().loc[int(st.session_state.get("id_number"))]
+student_data_sheet = get_student_loc_data_db().get_all_records()
+individual_student_data = [row for row in student_data_sheet if str(row["ID Number"]) == st.session_state.id_number][0]
 
-st.session_state.school = student_data.loc["School"]
+st.session_state.school = individual_student_data["School"]
 
 generate_sidebar()
 
 st.title("Your Loss of Credit", anchor=False)
 
-hours_owed = student_data.loc["Hours Owed"]
+hours_owed = individual_student_data["Hours Owed"]
 if hours_owed > 0:
   if hours_owed <= 1:
     st.error(f"You owe {hours_owed} loss of credit hour!")
   else:
     st.error(f"You owe {hours_owed} loss of credit hours!")
 
-hours_past_due = student_data.loc["Hours Past Due"]
+hours_past_due = individual_student_data["Hours Past Due"]
 if hours_past_due > 0:
   if hours_past_due <= 1:
     st.error(f"You have {hours_past_due} loss of credit hour past due!")
@@ -48,7 +49,7 @@ top_col4.write(f"**School:** {st.session_state.school}")
 
 col1, col2, col3 = st.columns(3, border=True)
 col1.header("Absences", divider="gray")
-col1.write(f"**Current:** {student_data.loc["Absences"]}")
+col1.write(f"**Current:** {individual_student_data["Absences"]}")
 col2.header("Hours Owed", divider="gray")
 col2.write(f"**Current:** {hours_owed}")
 col3.header("Hours Past Due", divider="gray")

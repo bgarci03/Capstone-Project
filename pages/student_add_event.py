@@ -17,7 +17,12 @@ except:
 
 generate_sidebar()
 
-signers = get_approved_signers_db()
+signers = get_approved_signers_db().get_all_records()
+signers_dict = dict()
+
+for row in signers:
+  signers_dict[row["Name"]] = [row["Email Address"], row["School"]]
+
 
 st.title("Remedy Loss of Credit Hours", anchor=False)
 
@@ -34,11 +39,11 @@ with form_container:
     date_phrase = date_completed.strftime("%A, %B %d, %Y")
     st.write(f"*Selected Date in Text: {date_phrase}*")
   
-  approved_signer = st.selectbox("**Approved Signer**", signers.index, placeholder="Choose an approved signer")
+  approved_signer = st.selectbox("**Approved Signer**", list(signers_dict.keys()), placeholder="Choose an approved signer")
   if approved_signer:
     col1, col2 = st.columns(2)
-    col1.write(f"*Email Address: {signers.loc[approved_signer]["Email Address"]}*")
-    col2.write(f"*School: {signers.loc[approved_signer]["School"]}*")
+    col1.write(f"*Email Address: {signers_dict[approved_signer][0]}*")
+    col2.write(f"*School: {signers_dict[approved_signer][1]}*")
 
 
   with st.form("remedy_mini_form", clear_on_submit=True, border=False):

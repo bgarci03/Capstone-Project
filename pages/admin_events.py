@@ -23,7 +23,9 @@ st.title("Manage Events")
 
 cal_tab, add_tab, delete_tab = st.tabs(["Calendar", "Add Event", "Delete Event"])
 
-events = get_upcoming_loc_labs_db()
+events_workbook = get_upcoming_loc_labs_db()
+events_sheet = events_workbook.get_all_records()
+events_dict = {row["School"]: (row["Time Start"], row["Time End"], row["Location"], row["Teacher"]) for row in events_sheet}
 
 calendar_options = {
   "headerToolbar": {
@@ -35,12 +37,12 @@ calendar_options = {
 }
 
 calendar_events = []
-for event in events.itertuples():
-  iso_start_time = datetime.strptime(f"{event.Date} {event._2}", "%m/%d/%Y %I:%M %p").isoformat()
-  iso_end_time = datetime.strptime(f"{event.Date} {event._3}", "%m/%d/%Y %I:%M %p").isoformat()
+for event in events_sheet:
+  iso_start_time = datetime.strptime(f"{event["Date"]} {event["Time Start"]}", "%m/%d/%Y %I:%M %p").isoformat()
+  iso_end_time = datetime.strptime(f"{event["Date"]} {event["Time End"]}", "%m/%d/%Y %I:%M %p").isoformat()
 
   calendar_events.append({
-    "title": f"LOC Lab @ {event.Index}",
+    "title": f"LOC Lab @ {event["School"]}",
     "start": iso_start_time,
     "end": iso_end_time,
   })
@@ -78,6 +80,8 @@ with add_tab:
 
       location = st.text_input("**Location in School**", value=None, placeholder="Location", max_chars=20)
 
+      teacher_name = st.text_input("**Teacher's/Admin's Name**", value=None, placeholder="First Name Last Name", max_chars=50)
+
       submitted = st.form_submit_button()
 
     inputs = (start_time, end_time, date, school, location)
@@ -93,6 +97,9 @@ with add_tab:
           "School": school,
           "Location": location
         }
+
+        new_row = [date.strftime("%m/%d/%Y"), school, start_time.strftime("%I:%M %p"), end_time.strftime("%I:%M %p"), location, teacher_name]
+        events_workbook.append_row(new_row)
 
       elif submitted and None in inputs:
         st.error("All fields must be filled!")
