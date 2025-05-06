@@ -15,7 +15,8 @@ try:
 except:
   st.switch_page("login.py")
 
-student_data_sheet = get_student_loc_data_db().get_all_records()
+get_student_loc_data_db()
+student_data_sheet = st.session_state.student_loc_sheet.get_all_records()
 individual_student_data = [row for row in student_data_sheet if str(row["ID Number"]) == st.session_state.id_number][0]
 
 st.session_state.school = individual_student_data["School"]

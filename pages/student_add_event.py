@@ -17,7 +17,8 @@ except:
 
 generate_sidebar()
 
-signers = get_approved_signers_db().get_all_records()
+get_approved_signers_db()
+signers = st.session_state.approved_signers_sheet.get_all_records()
 signers_dict = dict()
 
 for row in signers:

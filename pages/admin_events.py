@@ -23,7 +23,8 @@ st.title("Manage Events")
 
 cal_tab, add_tab, delete_tab = st.tabs(["Calendar", "Add Event", "Delete Event"])
 
-events_workbook = get_upcoming_loc_labs_db()
+get_upcoming_loc_labs_db()
+events_workbook = st.session_state.sheet
 events_sheet = events_workbook.get_all_records()
 events_dict = {row["School"]: (row["Time Start"], row["Time End"], row["Location"], row["Teacher"]) for row in events_sheet}
 
@@ -107,4 +108,12 @@ with add_tab:
 with delete_tab:
   delete_container = st.container(border=True)
   with delete_container:
-    calendar_events
+    school_name = st.text_input("**School Name**", value=None, placeholder="School Name", max_chars=20)
+
+    school_events = [row for row in events_sheet if row["School"] == school_name]
+
+    event_date = st.date_input("**Event Date**", value=None, format="MM/DD/YYYY")
+
+    school_events_with_date = [row for row in school_events if row["Date"] == event_date.strftime("%m/%d/%Y")]
+
+    school_events_with_date

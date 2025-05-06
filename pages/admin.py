@@ -17,3 +17,5 @@ generate_sidebar()
 st.title("Admin Panel")
 
 st.write(f"Welcome, {st.session_state.get("name")}! Manage Loss of Credit for students and view, add, or change events!")
+
+st.write("Refresh the page to see new updated events!")

@@ -23,7 +23,8 @@ def show_event(event_info):
 
 generate_sidebar()
 
-events_sheet = get_upcoming_loc_labs_db().get_all_records()
+get_upcoming_loc_labs_db()
+events_sheet = st.session_state.upcoming_loc_sheet.get_all_records()
 events_filtered_dict = {row["School"]: (row["Time Start"], row["Time End"], row["Location"], row["Teacher"]) for row in events_sheet if row["School"] == st.session_state.school}
 
 calendar_options = {
